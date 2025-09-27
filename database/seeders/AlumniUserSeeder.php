@@ -2,23 +2,20 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-class DatabaseSeeder extends Seeder
+class AlumniUserSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Jalankan database seeder.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'username' => '223020503060',
-            'nama'     => 'Irwin',
+        User::create([
+            'username' => '223010503000',
+            'nama'     => 'Nurdin',
             'password' => Hash::make('12345678'), // password: 12345678
             'level'    => 'alumni',
             'fakultas' => 'Teknik',
