@@ -10,11 +10,15 @@ class LoginResponse implements LoginResponseContract
     public function toResponse($request)
     {
         $user = Auth::user();
+
+        if ($user->level == "admin") {
+            return redirect()->intended(filament()->getPanel('admin')->getUrl());
+        }
+
+        if ($user->level == "alumni") {
+            return redirect()->intended(filament()->getPanel('alumni')->getUrl());
+        }
         
-        return match ($user->level) {
-            'admin'  => redirect()->intended(filament()->getPanel('admin')->getUrl()),
-            'alumni' => redirect()->intended(filament()->getPanel('alumni')->getUrl()),
-            default  => redirect('/'),
-        };
+        return redirect('/');
     }
 }
