@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Base\Borang6 as BaseBorang6;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Borang6 extends BaseBorang6
 {
@@ -29,4 +30,9 @@ class Borang6 extends BaseBorang6
 		'f1614',
 		'timestamp'
 	];
+
+	public function identita(): BelongsTo
+	{
+		return $this->belongsTo(Identita::class, 'nim', 'nim');
+	}
 }
