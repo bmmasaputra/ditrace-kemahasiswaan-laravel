@@ -22,7 +22,7 @@ class IdentitaResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'nama';
     
-    protected static ?string $label = 'Tracer Study Alumni';
+    protected static ?string $label = 'Tracer Study';
 
     public static function form(Schema $schema): Schema
     {

@@ -7,16 +7,18 @@ use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Checkbox;
 use Filament\Schemas\Components\Group;
 use Filament\Forms\Components\Select;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Html;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Radio;
 use Filament\Schemas\Schema;
 use App\Models\Fakprodi;
 use App\Models\Provinsi;
 use App\Models\Daerah;
-use Filament\Forms\Components\Placeholder;
-use Filament\Schemas\Components\Grid;
-use Filament\Schemas\Components\Html;
+use Dom\Text;
 
 class IdentitaForm
 {
@@ -106,7 +108,7 @@ class IdentitaForm
                         ->label('NPWP')
                         ->required(),
                 ])->collapsed()->columnSpanFull(),
-                Section::make('Data Tracer Study')->schema([
+                Section::make('Kuisioner Tracer Study')->schema([
                     Group::make()->schema([
                         Radio::make('f8')
                             ->label('Apa status Anda saat ini?')
@@ -240,7 +242,6 @@ class IdentitaForm
                                 ->required(),
                             TextInput::make('f1202')
                                 ->label('Jika memilih lainnya sebutkan disini')
-                                ->required(),
                         ])->columnSpanFull()->columns(),
                         Radio::make('f14')
                             ->label('Seberapa erat hubungan antara bidang studi dengan pekerjaan anda?')
@@ -275,55 +276,174 @@ class IdentitaForm
                             // Row 1 — Etika
                             Group::make()->schema([
                                 Html::make('x')->content('Etika'),
-                                Radio::make('f1761')->options([1, 2, 3, 4, 5])->inline()->hiddenLabel()->required(),
-                                Radio::make('f1762')->options([1, 2, 3, 4, 5])->inline()->hiddenLabel()->required(),
+                                Radio::make('f1761')->options(['1', '2', '3', '4', '5'])->inline()->hiddenLabel()->required(),
+                                Radio::make('f1762')->options(['1', '2', '3', '4', '5'])->inline()->hiddenLabel()->required(),
                             ])->columns(3),
 
                             // Row 2 — Keahlian berdasarkan bidang ilmu
                             Group::make()->schema([
                                 Html::make('y')->content('Keahlian berdasarkan bidang ilmu'),
-                                Radio::make('f1763')->options([1, 2, 3, 4, 5])->inline()->hiddenLabel()->required(),
-                                Radio::make('f1764')->options([1, 2, 3, 4, 5])->inline()->hiddenLabel()->required(),
+                                Radio::make('f1763')->options(['1', '2', '3', '4', '5'])->inline()->hiddenLabel()->required(),
+                                Radio::make('f1764')->options(['1', '2', '3', '4', '5'])->inline()->hiddenLabel()->required(),
                             ])->columns(3),
 
                             // Row 3 — Bahasa Inggris
                             Group::make()->schema([
                                 Html::make('z')->content('Bahasa Inggris'),
-                                Radio::make('f1765')->options([1, 2, 3, 4, 5])->inline()->hiddenLabel()->required(),
-                                Radio::make('f1766')->options([1, 2, 3, 4, 5])->inline()->hiddenLabel()->required(),
+                                Radio::make('f1765')->options(['1', '2', '3', '4', '5'])->inline()->hiddenLabel()->required(),
+                                Radio::make('f1766')->options(['1', '2', '3', '4', '5'])->inline()->hiddenLabel()->required(),
                             ])->columns(3),
 
                             // Row 4 — Penggunaan Teknologi Informasi
                             Group::make()->schema([
                                 Html::make('a')->content('Penggunaan Teknologi Informasi'),
-                                Radio::make('f1767')->options([1, 2, 3, 4, 5])->inline()->hiddenLabel()->required(),
-                                Radio::make('f1768')->options([1, 2, 3, 4, 5])->inline()->hiddenLabel()->required(),
+                                Radio::make('f1767')->options(['1', '2', '3', '4', '5'])->inline()->hiddenLabel()->required(),
+                                Radio::make('f1768')->options(['1', '2', '3', '4', '5'])->inline()->hiddenLabel()->required(),
                             ])->columns(3),
 
                             // Row 5 — Komunikasi
                             Group::make()->schema([
                                 Html::make('b')->content('Komunikasi'),
-                                Radio::make('f1769')->options([1, 2, 3, 4, 5])->inline()->hiddenLabel()->required(),
-                                Radio::make('f1770')->options([1, 2, 3, 4, 5])->inline()->hiddenLabel()->required(),
+                                Radio::make('f1769')->options(['1', '2', '3', '4', '5'])->inline()->hiddenLabel()->required(),
+                                Radio::make('f1770')->options(['1', '2', '3', '4', '5'])->inline()->hiddenLabel()->required(),
                             ])->columns(3),
 
                             // Row 6 — Kerja sama tim
                             Group::make()->schema([
                                 Html::make('c')->content('Kerja sama tim'),
-                                Radio::make('f1771')->options([1, 2, 3, 4, 5])->inline()->hiddenLabel()->required(),
-                                Radio::make('f1772')->options([1, 2, 3, 4, 5])->inline()->hiddenLabel()->required(),
+                                Radio::make('f1771')->options(['1', '2', '3', '4', '5'])->inline()->hiddenLabel()->required(),
+                                Radio::make('f1772')->options(['1', '2', '3', '4', '5'])->inline()->hiddenLabel()->required(),
                             ])->columns(3),
 
                             // Row 7 — Pengembangan Diri
                             Group::make()->schema([
                                 Html::make('d')->content('Pengembangan Diri'),
-                                Radio::make('f1773')->options([1, 2, 3, 4, 5])->inline()->hiddenLabel()->required(),
-                                Radio::make('f1774')->options([1, 2, 3, 4, 5])->inline()->hiddenLabel()->required(),
+                                Radio::make('f1773')->options(['1', '2', '3', '4', '5'])->inline()->hiddenLabel()->required(),
+                                Radio::make('f1774')->options(['1', '2', '3', '4', '5'])->inline()->hiddenLabel()->required(),
                             ])->columns(3),
                         ])
                         ->columns(1)
                         ->relationship('borang3')      // keep rows stacked
                         ->columnSpanFull(),
+                    Section::Make('Penekanan Metode Pembelajaran')
+                        ->description('Menurut anda seberapa besar penekanan pada metode pembelajaran di bawah ini dilaksanakan di program studi anda?')
+                        ->schema([
+                            Grid::make(3)->schema([
+                                Html::make('1')->content('Metode Pembelajaran')->extraAttributes(['class' => 'text-xs font-semibold uppercase']),
+                                Html::make('2')->content('Penekanan Metode Pembelajaran')->extraAttributes(['class' => 'text-xs font-semibold uppercase text-center'])->columnSpan(2),
+                            ])->columnSpanFull(),
+                            Group::make()->schema([
+                                Html::make('x')->content('Perkuliahan'),
+                                Radio::make('f21')->options(["1" => "Sangat Besar", "2" => "Besar", "3" => "Sedang", "4" => "Kurang", "5" => "Tidak Sama Sekali"])->columnSpan(2)->inline()->hiddenLabel()->required(),
+                            ])->columns(3),
+                            Group::make()->schema([
+                                Html::make('x')->content('Demonstrasi'),
+                                Radio::make('f22')->options(["1" => "Sangat Besar", "2" => "Besar", "3" => "Sedang", "4" => "Kurang", "5" => "Tidak Sama Sekali"])->columnSpan(2)->inline()->hiddenLabel()->required(),
+                            ])->columns(3),
+                            Group::make()->schema([
+                                Html::make('x')->content('Partisipasi Dalam Proyek Riset'),
+                                Radio::make('f23')->options(["1" => "Sangat Besar", "2" => "Besar", "3" => "Sedang", "4" => "Kurang", "5" => "Tidak Sama Sekali"])->columnSpan(2)->inline()->hiddenLabel()->required(),
+                            ])->columns(3),
+                            Group::make()->schema([
+                                Html::make('x')->content('Magang'),
+                                Radio::make('f24')->options(["1" => "Sangat Besar", "2" => "Besar", "3" => "Sedang", "4" => "Kurang", "5" => "Tidak Sama Sekali"])->columnSpan(2)->inline()->hiddenLabel()->required(),
+                            ])->columns(3),
+                            Group::make()->schema([
+                                Html::make('x')->content('Praktikum'),
+                                Radio::make('f25')->options(["1" => "Sangat Besar", "2" => "Besar", "3" => "Sedang", "4" => "Kurang", "5" => "Tidak Sama Sekali"])->columnSpan(2)->inline()->hiddenLabel()->required(),
+                            ])->columns(3),
+                            Group::make()->schema([
+                                Html::make('x')->content('Kerja Lapangan'),
+                                Radio::make('f26')->options(["1" => "Sangat Besar", "2" => "Besar", "3" => "Sedang", "4" => "Kurang", "5" => "Tidak Sama Sekali"])->columnSpan(2)->inline()->hiddenLabel()->required(),
+                            ])->columns(3),
+                            Group::make()->schema([
+                                Html::make('x')->content('Diskusi'),
+                                Radio::make('f27')->options(["1" => "Sangat Besar", "2" => "Besar", "3" => "Sedang", "4" => "Kurang", "5" => "Tidak Sama Sekali"])->columnSpan(2)->inline()->hiddenLabel()->required(),
+                            ])->columns(3),
+                        ])->relationship('borang4')->columnSpanFull(),
+                    Group::make()->schema([
+                        Fieldset::make('Kapan mulai mencari pekerjaan?')->schema([
+                            Radio::make('f301')
+                                ->label('Kapan anda mulai mencari pekerjaan? Mohon pekerjaan sambilan tidak dimasukkan')
+                                ->options([
+                                    '1' => 'Sebelum Lulus',
+                                    '2' => 'Setelah Lulus',
+                                    '3' => 'Belum Mencari Pekerjaan',
+                                ])
+                                ->required(),
+                            TextInput::make('f302')
+                                ->label('Jika sebelum lulus, berapa bulan sebelum lulus anda mulai mencari pekerjaan?')
+                                ->required(),
+                            TextInput::make('f303')
+                                ->label('Jika setelah lulus, berapa bulan setelah lulus anda mulai mencari pekerjaan?')
+                                ->required(),
+                        ])->columnSpanFull()->columns(1),
+                        Fieldset::make('Bagaimana anda mencari pekerjaan tersebut? Jawaban bisa lebih dari satu')->schema([
+                            Checkbox::make('f401')->label('Melalui iklan di koran / majalah / brosur'),
+                            Checkbox::make('f402')->label('Melamar ke perusahaan tanpa mengetahui lowongan yang ada'),
+                            Checkbox::make('f403')->label('Melalui Bursa Kerja / Job Fair'),
+                            Checkbox::make('f404')->label('Mencari lewat internet / iklan online'),
+                            Checkbox::make('f405')->label('Dihubungi oleh perusahaan'),
+                            Checkbox::make('f406')->label('Menghubungi Kemenakertrans '),
+                            Checkbox::make('f407')->label('Menghubungi agen tenaga kerja komersial/swasta '),
+                            Checkbox::make('f408')->label('Melalui informasi dari kantor pengembangan karir universitas'),
+                            Checkbox::make('f409')->label('Menghubungi kantor kemahasiswaan / hubungan alumni'),
+                            Checkbox::make('f410')->label('Membangun jejaring sejak masih kuliah'),
+                            Checkbox::make('f411')->label('Melalui relasi (misalnya dosen, orang tua, saudara, teman, dll.)'),
+                            Checkbox::make('f412')->label('Membangun bisnis sendiri'),
+                            Checkbox::make('f413')->label('Melalui penempatan kerja atau magang'),
+                            Checkbox::make('f414')->label('Bekerja di tempat yang sama dengan tempat kerja semasa kuliah'),
+                            Checkbox::make('f415')->label('Lainnya'),
+                            TextInput::make('f1416')
+                                ->label('Jika memilih lainnya sebutkan disini')
+                                ->placeholder('Jika memilih lainya, tuliskan di sini')
+                                ->hiddenLabel(),
+                        ])->columnSpanFull()->columns(2),
+                    ])->relationship('borang5')->columns(2),
+                    Group::make()->schema([
+                        TextInput::make('f6')
+                            ->label('Berapa perusahaan / instansi / institusi yang sudah anda lamar sebelum anda memperoleh pekerjaan pertama?')
+                            ->required(),
+                        TextInput::make('f7')
+                            ->label('Berapa banyak perusahaan / instansi / institusi yang merespons lamaran anda?')
+                            ->required(),
+                        TextInput::make('f7a')
+                            ->label('Berapa banyak perusahaan / instansi / institusi yang mengundang anda untuk wawancara?')
+                            ->required(),
+                        Fieldset::make()->schema([
+                            Radio::make('f1001')
+                                ->label('Apakah anda aktif mencari pekerjaan dalam 4 minggu terakhir?')
+                                ->options([
+                                    '1' => 'Tidak',
+                                    '2' => 'Tidak, tapi saya sedang menunggu hasil lamaran kerja',
+                                    '3' => 'Ya, saya akan mulai bekerja dalam 2 minggu ke depan',
+                                    '4' => 'Ya, tapi saya belum pasti akan bekerja dalam 2 minggu ke depan',
+                                    '5' => 'Lainya'
+                                ])
+                                ->required(),
+                            TextInput::make('f1002')
+                                ->label('Jika memilih lainnya sebutkan disini')
+                        ])->columnSpanFull()->columns(1),
+                        Fieldset::make('Bagaimana anda mencari pekerjaan tersebut? Jawaban bisa lebih dari satu')->schema([
+                            Checkbox::make('f1601')->label('Pertanyaan tidak sesuai; pekerjaan saya sekarang sudah sesuai dengan pendidikan saya'),
+                            Checkbox::make('f1602')->label('Saya belum mendapatkan pekerjaan yang lebih sesuai'),
+                            Checkbox::make('f1603')->label('Di pekerjaan ini saya memeroleh prospek karir yang baik'),
+                            Checkbox::make('f1604')->label('Saya lebih suka bekerja di area pekerjaan yang tidak ada hubungannya dengan pendidikan saya'),
+                            Checkbox::make('f1605')->label('Saya dipromosikan ke posisi yang kurang berhubungan dengan pendidikan saya dibanding posisi sebelumnya'),
+                            Checkbox::make('f1606')->label('Saya dapat memeroleh pendapatan yang lebih tinggi di pekerjaan ini'),
+                            Checkbox::make('f1607')->label('Pekerjaan saya saat ini lebih aman/terjamin/secure'),
+                            Checkbox::make('f1608')->label('Pekerjaan saya saat ini lebih menarik'),
+                            Checkbox::make('f1609')->label('Pekerjaan saya saat ini lebih memungkinkan saya mengambil pekerjaan tambahan/jadwal yang fleksibel, dll'),
+                            Checkbox::make('f1610')->label('Pekerjaan saya saat ini lokasinya lebih dekat dari rumah saya'),
+                            Checkbox::make('f1611')->label('Pekerjaan saya saat ini dapat lebih menjamin kebutuhan keluarga saya'),
+                            Checkbox::make('f1612')->label('Pada awal meniti karir ini, saya harus menerima pekerjaan yang tidak berhubungan dengan pendidikan saya'),
+                            Checkbox::make('f1613')->label('Lainya'),
+                            TextInput::make('f1614')
+                                ->label('Jika memilih lainnya sebutkan disini')
+                                ->placeholder('Jika memilih lainya, tuliskan di sini')
+                                ->hiddenLabel(),
+                        ])->columnSpanFull()->columns(2),
+                    ])->relationship('borang6')->columnSpanFull(),
                 ])->collapsed()->columnSpanFull(),
             ]);
     }
