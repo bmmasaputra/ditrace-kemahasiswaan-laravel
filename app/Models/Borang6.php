@@ -31,6 +31,24 @@ class Borang6 extends BaseBorang6
 		'timestamp'
 	];
 
+	protected $casts = [
+		'f1601' => 'boolean',
+		'f1602' => 'boolean',
+		'f1603' => 'boolean',
+		'f1604' => 'boolean',
+		'f1605' => 'boolean',
+		'f1606' => 'boolean',
+		'f1607' => 'boolean',
+		'f1608' => 'boolean',
+		'f1609' => 'boolean',
+		'f1610' => 'boolean',
+		'f1611' => 'boolean',
+		'f1612' => 'boolean',
+		'f1613' => 'boolean',
+		'f1614' => 'boolean',
+		'timestamp' => 'datetime',
+	];
+
 	public function identita(): BelongsTo
 	{
 		return $this->belongsTo(Identita::class, 'nim', 'nim');

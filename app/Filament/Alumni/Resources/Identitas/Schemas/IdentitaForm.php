@@ -12,18 +12,24 @@ use Filament\Schemas\Components\Group;
 use Filament\Forms\Components\Select;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Html;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Radio;
 use Filament\Schemas\Schema;
+use App\Models\ProvinsiNDB;
+use App\Models\DaerahNDB;
 use App\Models\Fakprodi;
 use App\Models\Provinsi;
 use App\Models\Daerah;
-use Dom\Text;
 
 class IdentitaForm
 {
     public static function configure(Schema $schema): Schema
     {
+        // $provinsi = ProvinsiNDB::all()->pluck('provinsi', 'id');
+        // // $provinsi = Provinsi::query()
+        // //     ->pluck('provinsi', (string) 'id_prov')
+        // //     ->toArray();
+
+        // dd($provinsi);
         return $schema
             ->components([
                 Section::make('Data Identitas')->schema([
@@ -67,27 +73,27 @@ class IdentitaForm
                             ->label('Provinsi')
                             ->options(
                                 Provinsi::query()
-                                    ->distinct()
-                                    ->pluck('provinsi', 'id_prov')
+                                    ->pluck('provinsi', 'id')
                                     ->toArray()
                             )
                             ->reactive()
+                            ->preload()
                             ->required(),
                         Select::make('daerah')
                             ->label('Kota / Kabupaten')
                             ->options(function (callable $get) {
-                                $id_prov = $get('domisili');
+                                $id = $get('domisili');
 
-                                if (! $id_prov) {
+                                if (! $id) {
                                     return [];
                                 }
-
                                 return Daerah::query()
-                                    ->where('id_prov', $id_prov)
+                                    ->where('id_prov2', $id)
                                     ->pluck('daerah', 'daerah')
                                     ->toArray();
                             })
                             ->reactive()
+                            ->preload()
                             ->required(),
                     ]),
                     Textarea::make('alamat')
@@ -120,7 +126,9 @@ class IdentitaForm
                                 '2' => 'Belum Memungkinkan Bekerja',
                             ])
                             ->columnSpanFull()
+                            ->live()
                             ->required(),
+
                         Fieldset::make('Kapan Anda Mendapatkan Pekerjaan?')->schema([
                             Radio::make('f504')
                                 ->label('Apakah anda telah mendapatkan pekerjaan kurang dari atau sama dengan 6 bulan sebelum lulus?')
@@ -132,22 +140,27 @@ class IdentitaForm
                                 ->required(),
                             TextInput::make('f502')
                                 ->label('Jika ya, berapa bulan anda mendapatkan pekerjaan sebelum lulus?')
-                                ->numeric()
-                                ->required(),
+                                ->numeric(),
                             TextInput::make('f506')
                                 ->label('Jika tidak, berapa bulan anda mendapatkan pekerjaan setelah lulus?')
+                                ->numeric(),
+                            TextInput::make('f505')
+                                ->label('Berapa rata-rata pendapatan anda per bulan?')
+                                ->placeholder('Tanpa Koma dan Titik')
                                 ->numeric()
                                 ->required(),
-                        ])->columnSpanFull(),
+                        ])->visible(fn(callable $get) => in_array(($get('f8')), ['1', '3']))->columnSpanFull(),
+
                         Fieldset::make('Dimana lokasi tempat anda bekerja?')->schema([
                             Select::make('f5a1')
                                 ->label('Provinsi')
                                 ->options(
                                     Provinsi::query()
-                                        ->distinct()
-                                        ->pluck('provinsi', 'id_prov')
+                                        ->pluck('provinsi', (string) 'id_prov')
                                         ->toArray()
                                 )
+                                ->live(onBlur: true)
+                                ->preload()
                                 ->reactive()
                                 ->required(),
                             Select::make('f5a2')
@@ -161,9 +174,10 @@ class IdentitaForm
 
                                     return Daerah::query()
                                         ->where('id_prov', $id_prov)
-                                        ->pluck('daerah', 'daerah')
+                                        ->pluck('daerah', (string) 'id_daerah')
                                         ->toArray();
                                 })
+                                ->preload()
                                 ->reactive()
                                 ->required(),
                         ])->columnSpanFull(),
@@ -182,7 +196,8 @@ class IdentitaForm
                                 ->columns()
                                 ->required(),
                             TextInput::make('f1102')
-                                ->label('Jika memilih lainnya sebutkan disini'),
+                                ->label('Jika memilih lainnya sebutkan disini')
+                                ->maxLength(100),
                             Radio::make('f5d')
                                 ->label('Apa tingkat tempat kerja Anda?')
                                 ->options([
@@ -205,7 +220,8 @@ class IdentitaForm
                             ])
                             ->columnSpanFull()
                             ->required(),
-                    ])->relationship('borang1')->columns(1),
+                    ])->columns(1),
+
                     Group::make()->schema([
                         Fieldset::make("Pertanyaan Studi Lanjut")->schema([
                             Radio::make('f18a')
@@ -262,7 +278,8 @@ class IdentitaForm
                                 '4' => 'Tidak Perlu Pendidikan Tinggi',
                             ])
                             ->required(),
-                    ])->relationship('borang2')->columns(2),
+                    ])->columns(2),
+
                     Section::make('Penilaian Kompetensi')
                         ->description('1 = Sangat Rendah ··· 5 = Sangat Tinggi')
                         ->schema([
@@ -322,8 +339,7 @@ class IdentitaForm
                                 Radio::make('f1774')->options(['1', '2', '3', '4', '5'])->inline()->hiddenLabel()->required(),
                             ])->columns(3),
                         ])
-                        ->columns(1)
-                        ->relationship('borang3')      // keep rows stacked
+                        ->columns(1)   // keep rows stacked
                         ->columnSpanFull(),
                     Section::Make('Penekanan Metode Pembelajaran')
                         ->description('Menurut anda seberapa besar penekanan pada metode pembelajaran di bawah ini dilaksanakan di program studi anda?')
@@ -360,9 +376,9 @@ class IdentitaForm
                                 Html::make('x')->content('Diskusi'),
                                 Radio::make('f27')->options(["1" => "Sangat Besar", "2" => "Besar", "3" => "Sedang", "4" => "Kurang", "5" => "Tidak Sama Sekali"])->columnSpan(2)->inline()->hiddenLabel()->required(),
                             ])->columns(3),
-                        ])->relationship('borang4')->columnSpanFull(),
+                        ])->columnSpanFull(),
                     Group::make()->schema([
-                        Fieldset::make('Kapan mulai mencari pekerjaan?')->schema([
+                        Fieldset::make()->schema([
                             Radio::make('f301')
                                 ->label('Kapan anda mulai mencari pekerjaan? Mohon pekerjaan sambilan tidak dimasukkan')
                                 ->options([
@@ -373,10 +389,10 @@ class IdentitaForm
                                 ->required(),
                             TextInput::make('f302')
                                 ->label('Jika sebelum lulus, berapa bulan sebelum lulus anda mulai mencari pekerjaan?')
-                                ->required(),
+                                ->numeric(),
                             TextInput::make('f303')
                                 ->label('Jika setelah lulus, berapa bulan setelah lulus anda mulai mencari pekerjaan?')
-                                ->required(),
+                                ->numeric(),
                         ])->columnSpanFull()->columns(1),
                         Fieldset::make('Bagaimana anda mencari pekerjaan tersebut? Jawaban bisa lebih dari satu')->schema([
                             Checkbox::make('f401')->label('Melalui iklan di koran / majalah / brosur'),
@@ -399,7 +415,7 @@ class IdentitaForm
                                 ->placeholder('Jika memilih lainya, tuliskan di sini')
                                 ->hiddenLabel(),
                         ])->columnSpanFull()->columns(2),
-                    ])->relationship('borang5')->columns(2),
+                    ])->columns(2),
                     Group::make()->schema([
                         TextInput::make('f6')
                             ->label('Berapa perusahaan / instansi / institusi yang sudah anda lamar sebelum anda memperoleh pekerjaan pertama?')
@@ -442,8 +458,8 @@ class IdentitaForm
                                 ->label('Jika memilih lainnya sebutkan disini')
                                 ->placeholder('Jika memilih lainya, tuliskan di sini')
                                 ->hiddenLabel(),
-                        ])->columnSpanFull()->columns(2),
-                    ])->relationship('borang6')->columnSpanFull(),
+                        ])->columnSpanFull()->columns(1),
+                    ])->columnSpanFull(),
                 ])->collapsed()->columnSpanFull(),
             ]);
     }

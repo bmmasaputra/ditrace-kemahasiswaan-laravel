@@ -3,9 +3,10 @@
 namespace App\Filament\Alumni\Resources\Identitas\Pages;
 
 use App\Filament\Alumni\Resources\Identitas\IdentitaResource;
-use App\Models\Identita;
+use App\Models\TracerStudy;
 use Illuminate\Support\Facades\Auth;
 use Filament\Resources\Pages\ListRecords;
+use PHPUnit\Event\Tracer\Tracer;
 
 class ListIdentitas extends ListRecords
 {
@@ -28,12 +29,34 @@ class ListIdentitas extends ListRecords
         // dd($user->fakultas);
 
         // Ensure there is a record; if not, create a blank one for this nim
-        $identitas = Identita::firstOrCreate(
+        $identitas = TracerStudy::firstOrCreate(
             ['nim' => (string) $nim], // cast to string if your PK is string
             [
                 'nama'     => $user->nama,
                 'fakultas' => $user->fakultas,
                 'prodi'    => $user->jurusan, // make sure this maps correctly
+                'f8'       => '',
+                'f1761'    => '',
+                'f1762'    => '',
+                'f1763'    => '',
+                'f1764'    => '',
+                'f1765'    => '',
+                'f1766'    => '',
+                'f1767'    => '',
+                'f1768'    => '',
+                'f1769'    => '',
+                'f1770'    => '',
+                'f1771'    => '',
+                'f1772'    => '',
+                'f1773'    => '',
+                'f1774'    => '',
+                'f21'      => '',
+                'f22'      => '',
+                'f23'      => '',
+                'f24'      => '',
+                'f25'      => '',
+                'f26'      => '',
+                'f27'      => '',
             ]
         );
 

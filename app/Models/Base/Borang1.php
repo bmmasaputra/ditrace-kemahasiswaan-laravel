@@ -14,17 +14,17 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property string $nim
  * @property string $f8
- * @property string $f504
- * @property string $f502
- * @property string $f505
- * @property string $f506
- * @property string $f5a1
- * @property string $f5a2
- * @property string $f1101
- * @property string $f1102
- * @property string $f5b
- * @property string $f5c
- * @property string $f5d
+ * @property string|null $f504
+ * @property string|null $f502
+ * @property string|null $f505
+ * @property string|null $f506
+ * @property string|null $f5a1
+ * @property string|null $f5a2
+ * @property string|null $f1101
+ * @property string|null $f1102
+ * @property string|null $f5b
+ * @property string|null $f5c
+ * @property string|null $f5d
  * @property Carbon $timestamp
  *
  * @package App\Models\Base

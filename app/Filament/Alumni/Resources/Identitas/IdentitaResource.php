@@ -8,6 +8,7 @@ use App\Filament\Alumni\Resources\Identitas\Pages\ListIdentitas;
 use App\Filament\Alumni\Resources\Identitas\Schemas\IdentitaForm;
 use App\Filament\Alumni\Resources\Identitas\Tables\IdentitasTable;
 use App\Models\Identita;
+use App\Models\TracerStudy;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -16,13 +17,15 @@ use Filament\Tables\Table;
 
 class IdentitaResource extends Resource
 {
-    protected static ?string $model = Identita::class;
+    protected static ?string $model = TracerStudy::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'nama';
     
     protected static ?string $label = 'Tracer Study';
+
+    protected static ?string $navigationLabel = 'Tracer Study';
 
     public static function form(Schema $schema): Schema
     {

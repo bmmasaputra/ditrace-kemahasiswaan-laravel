@@ -12,4 +12,10 @@ class Daerah extends BaseDaerah
 		'id_prov2',
 		'daerah'
 	];
+
+	protected $casts = [
+		'id_daerah' => 'string',
+		'id_prov' => 'string',
+		'id_prov2' => 'string',
+	];
 }
