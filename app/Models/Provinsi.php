@@ -11,4 +11,9 @@ class Provinsi extends BaseProvinsi
 		'id_prov',
 		'provinsi'
 	];
+
+	protected $casts = [
+		'id' => 'string',
+		'id_prov' => 'string',
+	];
 }
