@@ -133,7 +133,6 @@ class TracerStudy extends BaseTracerStudy
 		'f1611' => 'boolean',
 		'f1612' => 'boolean',
 		'f1613' => 'boolean',
-		'f1614' => 'boolean',
 		'timestamp' => 'datetime',
 	];
 }
