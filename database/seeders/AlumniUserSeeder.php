@@ -14,12 +14,13 @@ class AlumniUserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'username' => '223010503000',
-            'nama'     => 'Nurdin',
-            'password' => Hash::make('12345678'), // password: 12345678
-            'level'    => 'alumni',
-            'fakultas' => 'Teknik',
-            'jurusan'  => 'Teknik Informatika',
+            'username'  => '223010503000',
+            'nama'      => 'Nurdin',
+            'password'  => Hash::make('12345678'), // password: 12345678
+            'thn_lulus' => 2025,
+            'level'     => 'alumni',
+            'fakultas'  => 'Teknik',
+            'jurusan'   => 'Teknik Informatika',
         ]);
     }
 }

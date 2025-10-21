@@ -124,7 +124,7 @@ class IdentitaForm
                                 '1' => 'Bekerja',
                                 '3' => 'Wirausaha',
                                 '4' => 'Melanjutkan Studi',
-                                '5' => 'Tidak Bekerja tetapi sedang mencari pekerjaan',
+                                '5' => 'Tidak Bekerja Tetapi Sedang Mencari Pekerjaan',
                                 '2' => 'Belum Memungkinkan Bekerja',
                             ])
                             ->columnSpanFull()

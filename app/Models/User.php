@@ -23,6 +23,7 @@ class User extends Authenticatable implements HasName
         'username',
         'nama',
         'password',
+        'thn_lulus',
         'level',
         'fakultas',
         'jurusan',
