@@ -171,7 +171,7 @@ class TracerStudyInfolist
                         ->placeholder('-'),
                 ])->columnSpanFull()->columns(),
                 TextEntry::make('f14')
-                    ->label('Seberapa erat hubungan antara bidang studi dengan pekerjaan alumni (f14)')
+                    ->label('Seberapa erat hubungan antara bidang studi dengan pekerjaan alumni')
                     ->size(TextSize::Large)
                     ->formatStateUsing(fn($state) => [
                         '1' => 'Sangat Erat',
@@ -181,15 +181,8 @@ class TracerStudyInfolist
                         '5' => 'Tidak Sama Sekali',
                     ][$state] ?? 'Belum Mengisi'),
                 TextEntry::make('f15')
-                    ->label('Tingkat pendidikan yang sesuai untuk pekerjaan alumni saat ini (f15)')
-                    ->formatStateUsing(fn($state) => [
-                        '1' => 'Sangat Erat',
-                        '2' => 'Erat',
-                        '3' => 'Cukup Erat',
-                        '4' => 'Kurang Erat',
-                        '5' => 'Tidak Sama Sekali',
-                    ][$state] ?? 'Belum Mengisi')
-                    ->size(TextSize::Large),
+                    ->size(TextSize::Large)
+                    ->placeholder('-'),
                 TextEntry::make('f1761'),
                 TextEntry::make('f1762'),
                 TextEntry::make('f1763'),

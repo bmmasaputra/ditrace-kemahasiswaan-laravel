@@ -20,6 +20,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Http\Middleware\RedirectIfWrongPanel;
 use App\Filament\Pages\Login;
+use App\Filament\Resources\IKUS\IKUResource;
 
 class AdminPanelProvider extends PanelProvider
 {

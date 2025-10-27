@@ -20,5 +20,8 @@ use Illuminate\Database\Eloquent\Model;
 class Kontak extends Model
 {
 	protected $table = 'kontak';
+	protected $primaryKey = 'id';
+	protected $keyType = 'int';
+	public $incrementing = true;
 	public $timestamps = false;
 }
