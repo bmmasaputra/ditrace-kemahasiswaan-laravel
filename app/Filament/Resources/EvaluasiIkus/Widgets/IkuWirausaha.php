@@ -4,15 +4,10 @@ namespace App\Filament\Resources\EvaluasiIkus\Widgets;
 
 use Filament\Widgets\ChartWidget;
 use App\Models\TracerStudy;
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\Select;
-use Filament\Widgets\ChartWidget\Concerns\HasFiltersSchema;
 
-class IkuPekerjaan extends ChartWidget
+class IkuWirausaha extends ChartWidget
 {
-    // use HasFiltersSchema;
-
-    protected ?string $heading = 'Alumni yang mendapatkan pekerjaan < 6 bulan dan Gaji> 1.2 Kali UMP';
+    protected ?string $heading = 'Alumni yang berwiraswasta/wirausaha < 6 bulan dan Penghasilan> 1.2 Kali UMP dan Posisi sebagai Founder, Co-Founder, Freelance.';
 
     protected int | string | array $columnSpan = 'full';
 
@@ -36,8 +31,9 @@ class IkuPekerjaan extends ChartWidget
         $gradYear = $this->filter;
 
         $countTeknik = TracerStudy::where('fakultas', 'Teknik')
-            ->where('f8', '1')
+            ->where('f8', '3')
             ->where('thn_lulus', $gradYear)
+            ->where('f5c', '<>', '3')
             ->where('f505', '>', 4230185)
             ->where(function ($query) {
                 $query->where('f504', '1')
@@ -49,8 +45,9 @@ class IkuPekerjaan extends ChartWidget
             ->count();
 
         $countFKIP = TracerStudy::where('fakultas', 'Keguruan dan Ilmu Pendidikan')
-            ->where('f8', '1')
+            ->where('f8', '3')
             ->where('thn_lulus', $gradYear)
+            ->where('f5c', '<>', '3')
             ->where('f505', '>', 4230185)
             ->where(function ($query) {
                 $query->where('f504', '1')
@@ -62,8 +59,9 @@ class IkuPekerjaan extends ChartWidget
             ->count();
 
         $countKedokteran = TracerStudy::where('fakultas', 'Kedokteran')
-            ->where('f8', '1')
+            ->where('f8', '3')
             ->where('thn_lulus', $gradYear)
+            ->where('f5c', '<>', '3')
             ->where('f505', '>', 4230185)
             ->where(function ($query) {
                 $query->where('f504', '1')
@@ -75,8 +73,9 @@ class IkuPekerjaan extends ChartWidget
             ->count();
 
         $countPertanian = TracerStudy::where('fakultas', 'Pertanian')
-            ->where('f8', '1')
+            ->where('f8', '3')
             ->where('thn_lulus', $gradYear)
+            ->where('f5c', '<>', '3')
             ->where('f505', '>', 4230185)
             ->where(function ($query) {
                 $query->where('f504', '1')
@@ -88,8 +87,9 @@ class IkuPekerjaan extends ChartWidget
             ->count();
 
         $countMIPA = TracerStudy::where('fakultas', 'Matematika dan Ilmu Pengetahuan Alam')
-            ->where('f8', '1')
+            ->where('f8', '3')
             ->where('thn_lulus', $gradYear)
+            ->where('f5c', '<>', '3')
             ->where('f505', '>', 4230185)
             ->where(function ($query) {
                 $query->where('f504', '1')
@@ -101,8 +101,9 @@ class IkuPekerjaan extends ChartWidget
             ->count();
 
         $countPascasarjana = TracerStudy::where('fakultas', 'Program Pascasarjana')
-            ->where('f8', '1')
+            ->where('f8', '3')
             ->where('thn_lulus', $gradYear)
+            ->where('f5c', '<>', '3')
             ->where('f505', '>', 4230185)
             ->where(function ($query) {
                 $query->where('f504', '1')
@@ -114,8 +115,9 @@ class IkuPekerjaan extends ChartWidget
             ->count();
 
         $countEkonomi = TracerStudy::where('fakultas', 'Ekonomi')
-            ->where('f8', '1')
+            ->where('f8', '3')
             ->where('thn_lulus', $gradYear)
+            ->where('f5c', '<>', '3')
             ->where('f505', '>', 4230185)
             ->where(function ($query) {
                 $query->where('f504', '1')
@@ -127,8 +129,9 @@ class IkuPekerjaan extends ChartWidget
             ->count();
 
         $countFISIP = TracerStudy::where('fakultas', 'Ilmu Sosial dan Ilmu Politik')
-            ->where('f8', '1')
+            ->where('f8', '3')
             ->where('thn_lulus', $gradYear)
+            ->where('f5c', '<>', '3')
             ->where('f505', '>', 4230185)
             ->where(function ($query) {
                 $query->where('f504', '1')
@@ -140,8 +143,9 @@ class IkuPekerjaan extends ChartWidget
             ->count();
 
         $countHukum = TracerStudy::where('fakultas', 'Hukum')
-            ->where('f8', '1')
+            ->where('f8', '3')
             ->where('thn_lulus', $gradYear)
+            ->where('f5c', '<>', '3')
             ->where('f505', '>', 4230185)
             ->where(function ($query) {
                 $query->where('f504', '1')

@@ -44,13 +44,13 @@ class ListTracerStudies extends ListRecords
                                 ->formatStateUsing(function ($state, $record) {
                                     // $state is the stored province name in your table
                                     $province = Provinsi::where('id', $state)->first();
-                                    return $province ? $province->id_prov : '';
+                                    return $province ? $province->id_prov : $state;
                                 }),
                             Column::make('daerah')
                                 ->formatStateUsing(function ($state, $record) {
                                     // $state is the stored province name in your table
                                     $region = Daerah::where('daerah', $state)->first();
-                                    return $region ? $region->id_daerah : '';
+                                    return $region ? $region->id_daerah : $state;
                                 }),
                             Column::make('alamat'),
                             Column::make('nik'),
@@ -63,13 +63,13 @@ class ListTracerStudies extends ListRecords
                                 ->formatStateUsing(function ($state, $record) {
                                     // $state is the stored province name in your table
                                     $province = Provinsi::where('id', $state)->first();
-                                    return $province ? $province->id_prov : '';
+                                    return $province ? $province->id_prov : $state;
                                 }),
                             Column::make('f5a2')
                                 ->formatStateUsing(function ($state, $record) {
                                     // $state is the stored province name in your table
                                     $region = Daerah::where('daerah', $state)->first();
-                                    return $region ? $region->id_daerah : '';
+                                    return $region ? $region->id_daerah : $state;
                                 }),
                             Column::make('f1101'),
                             Column::make('f1102'),

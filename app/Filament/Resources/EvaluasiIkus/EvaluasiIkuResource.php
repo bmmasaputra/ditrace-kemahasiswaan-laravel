@@ -13,6 +13,9 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use App\Filament\Resources\EvaluasiIkus\Widgets\IkuPekerjaan;
+use App\Filament\Resources\EvaluasiIkus\Widgets\IkuStudiLanjut;
+use App\Filament\Resources\EvaluasiIkus\Widgets\IkuWirausaha;
+use App\Filament\Resources\EvaluasiIkus\Widgets\MetrikIku;
 use Filament\Tables\Table;
 
 class EvaluasiIkuResource extends Resource
@@ -38,7 +41,10 @@ class EvaluasiIkuResource extends Resource
     public static function getWidgets(): array
     {
         return [
+            MetrikIku::class,
             IkuPekerjaan::class,
+            IkuWirausaha::class,
+            IkuStudiLanjut::class,
         ];
     }
 

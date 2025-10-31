@@ -143,16 +143,20 @@ class IdentitaForm
                             ->requiredIf('f8', ['1', '3']),
                         TextInput::make('f502')
                             ->label('Jika ya, berapa bulan anda mendapatkan pekerjaan sebelum lulus?')
+                            ->maxValue(6)
+                            ->minValue(0)
                             ->visible(fn(callable $get) => $get('f504') == '1')
                             ->requiredIf('f504', '1')
                             ->numeric(),
                         TextInput::make('f506')
                             ->label('Jika tidak, berapa bulan anda mendapatkan pekerjaan setelah lulus?')
+                            ->minValue(0)
                             ->visible(fn(callable $get) => $get('f504') == '2')
                             ->requiredIf('f504', '2')
                             ->numeric(),
                         TextInput::make('f505')
                             ->label('Berapa rata-rata pendapatan anda per bulan?')
+                            ->minValue(0)
                             ->placeholder('Tanpa Koma dan Titik')
                             ->numeric()
                             ->requiredIf('f8', ['1', '3']),

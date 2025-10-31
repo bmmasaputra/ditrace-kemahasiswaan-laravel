@@ -25,7 +25,10 @@ class Dashboard extends BaseDashboard
                                 range(date('Y'), date('Y') - 10)
                             )
                         )
-                        ->live(),
+                        ->live()
+                        ->afterStateUpdated(function () {
+                            $this->js("window.location.reload()");
+                        }),
                     Select::make('Fakultas')
                         ->options(
                             Fakprodi::query()

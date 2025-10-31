@@ -29,6 +29,8 @@ class TracerStudyForm
             ->components([
                 Wizard::make([
                     Step::make('Data Identitas')->schema([
+                        TextInput::make('nim')
+                            ->required(),
                         TextInput::make('nama')
                             ->required(),
                         Select::make('fakultas')
@@ -137,16 +139,20 @@ class TracerStudyForm
                         TextInput::make('f502')
                             ->label('Jika ya, berapa bulan anda mendapatkan pekerjaan sebelum lulus?')
                             ->visible(fn(callable $get) => $get('f504') == '1')
-                            ->requiredIf('f504', '1')
+                            ->maxValue(6)
+                            ->minValue(0)
+                            ->requiredIf('f504', '1') // gak boleh lebih dari enam bulan
                             ->numeric(),
                         TextInput::make('f506')
                             ->label('Jika tidak, berapa bulan anda mendapatkan pekerjaan setelah lulus?')
                             ->visible(fn(callable $get) => $get('f504') == '2')
+                            ->minValue(0)
                             ->requiredIf('f504', '2')
                             ->numeric(),
                         TextInput::make('f505')
                             ->label('Berapa rata-rata pendapatan anda per bulan?')
                             ->placeholder('Tanpa Koma dan Titik')
+                            ->minValue(0)
                             ->numeric()
                             ->requiredIf('f8', ['1', '3']),
                     ])->visible(fn(callable $get) => in_array(($get('f8')), ['1', '3']))->columnSpanFull(),
