@@ -18,7 +18,11 @@ class LoginResponse implements LoginResponseContract
         if ($user->level == "alumni") {
             return redirect()->intended(filament()->getPanel('alumni')->getUrl());
         }
-        
+
+        if ($user->level == "fakultas") {
+            return redirect()->intended(filament()->getPanel('operatorFakultas')->getUrl());
+        }
+
         return redirect('/');
     }
 }

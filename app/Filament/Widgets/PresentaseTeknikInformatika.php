@@ -6,6 +6,7 @@ use Filament\Widgets\ChartWidget;
 use App\Models\User;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use App\Models\TracerStudy;
+use Illuminate\Support\Facades\Auth;
 
 class PresentaseTeknikInformatika extends ChartWidget
 {
@@ -59,6 +60,12 @@ class PresentaseTeknikInformatika extends ChartWidget
 
     public static function canView(): bool
     {
+        $user = Auth::user();
+
+        if ($user->level == 'fakultas') {
+            return true;
+        }
+
         $filters = request()->query('filters', []);
 
         $fakultas = $filters['Fakultas'] ?? null;

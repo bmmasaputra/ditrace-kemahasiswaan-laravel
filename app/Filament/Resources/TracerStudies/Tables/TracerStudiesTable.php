@@ -7,12 +7,15 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Facades\Auth;
 use Filament\Tables\Table;
 
 class TracerStudiesTable
 {
     public static function configure(Table $table): Table
     {
+        $userLevel = Auth::user()->level;
+
         return $table
             ->columns([
                 TextColumn::make('nim')
@@ -42,11 +45,13 @@ class TracerStudiesTable
             ])
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
+                EditAction::make()
+                    ->visible(fn() => in_array($userLevel, ['admin'])),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->visible(fn() => $userLevel === 'admin'),
                 ]),
             ]);
     }

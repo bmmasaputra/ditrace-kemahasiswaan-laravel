@@ -23,8 +23,8 @@ class RedirectIfWrongPanel
                 return redirect()->intended('/alumni');
             }
 
-            if ($user->level == 'operator') {
-                return redirect()->intended('/operator');
+            if ($user->level == 'fakultas') {
+                return redirect()->intended('/operatorFakultas');
             }
         }
 
