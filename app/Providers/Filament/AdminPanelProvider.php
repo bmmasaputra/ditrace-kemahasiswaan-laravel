@@ -20,6 +20,9 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Http\Middleware\RedirectIfWrongPanel;
 use App\Filament\Pages\Login;
+use Filament\Actions\Action;
+use Filament\Facades\Filament;
+use App\Filament\Resources\ChangePasswords\ChangePasswordResource;
 use App\Filament\Resources\IKUS\IKUResource;
 
 class AdminPanelProvider extends PanelProvider
@@ -53,6 +56,12 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+            ])
+            ->userMenuItems([
+                Action::make('changePassword')
+                    ->label('Ubah Password')
+                    ->icon('heroicon-o-key')
+                    ->url(fn() => ChangePasswordResource::getUrl(panel: Filament::getCurrentPanel()->getId())),
             ])
             ->authMiddleware([
                 Authenticate::class,
