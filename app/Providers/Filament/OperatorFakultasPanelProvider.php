@@ -10,6 +10,9 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Actions\Action;
+use App\Filament\Resources\ChangePasswords\ChangePasswordResource;
+use Filament\Facades\Filament;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -35,11 +38,18 @@ class OperatorFakultasPanelProvider extends PanelProvider
             ->pages([])
             ->resources([
                 TracerStudyResource::class,
+                ChangePasswordResource::class
             ])
             ->discoverWidgets(in: app_path('Filament/OperatorFakultas/Widgets'), for: 'App\Filament\OperatorFakultas\Widgets')
             ->widgets([
                 AccountWidget::class,
                 FilamentInfoWidget::class,
+            ])
+            ->userMenuItems([
+                Action::make('changePassword')
+                    ->label('Ubah Password')
+                    ->icon('heroicon-o-key')
+                    ->url(fn() => ChangePasswordResource::getUrl(panel: Filament::getCurrentPanel()->getId())),
             ])
             ->middleware([
                 EncryptCookies::class,

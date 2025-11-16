@@ -11,6 +11,7 @@ class CreateTracerStudy extends CreateRecord
 {
     protected static string $resource = TracerStudyResource::class;
 
+    protected static bool $canCreateAnother = false;
 
     protected function afterCreate(): void
     {

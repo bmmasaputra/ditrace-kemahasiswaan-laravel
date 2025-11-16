@@ -8,4 +8,6 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateLowonganKerja extends CreateRecord
 {
     protected static string $resource = LowonganKerjaResource::class;
+
+    protected static bool $canCreateAnother = false;
 }
