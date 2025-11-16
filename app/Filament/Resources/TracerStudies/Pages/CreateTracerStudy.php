@@ -27,4 +27,9 @@ class CreateTracerStudy extends CreateRecord
             'jurusan'      => $this->record->prodi,
         ]);
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
 }

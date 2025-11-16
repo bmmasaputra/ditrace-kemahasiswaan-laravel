@@ -16,8 +16,7 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Html;
 use Filament\Forms\Components\Radio;
 use Filament\Schemas\Schema;
-use App\Models\ProvinsiNDB;
-use App\Models\DaerahNDB;
+use Filament\Support\RawJs;
 use App\Models\Fakprodi;
 use App\Models\Provinsi;
 use App\Models\Daerah;
@@ -157,7 +156,8 @@ class IdentitaForm
                         TextInput::make('f505')
                             ->label('Berapa rata-rata pendapatan anda per bulan?')
                             ->minValue(0)
-                            ->placeholder('Tanpa Koma dan Titik')
+                            ->mask(RawJs::make('$money($input)'))
+                            ->stripCharacters(',')
                             ->numeric()
                             ->requiredIf('f8', ['1', '3']),
                     ])->visible(fn(callable $get) => in_array(($get('f8')), ['1', '3']))->columnSpanFull(),
@@ -476,7 +476,7 @@ class IdentitaForm
                                 ->label('Jika memilih lainnya sebutkan disini')
                         ])->visible(fn(callable $get) => $get('f8') == '5')->columnSpanFull()->columns(1),
 
-                        Fieldset::make('Bagaimana anda mencari pekerjaan tersebut? Jawaban bisa lebih dari satu')->schema([
+                        Fieldset::make('Jika menurut anda pekerjaan anda saat ini tidak sesuai dengan pendidikan anda, mengapa anda mengambilnya? Jawaban bisa lebih dari satu')->schema([
                             Checkbox::make('f1601')->label('Pertanyaan tidak sesuai; pekerjaan saya sekarang sudah sesuai dengan pendidikan saya'),
                             Checkbox::make('f1602')->label('Saya belum mendapatkan pekerjaan yang lebih sesuai'),
                             Checkbox::make('f1603')->label('Di pekerjaan ini saya memeroleh prospek karir yang baik'),
