@@ -16,8 +16,7 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Html;
 use Filament\Forms\Components\Radio;
 use Filament\Schemas\Schema;
-use App\Models\ProvinsiNDB;
-use App\Models\DaerahNDB;
+use Filament\Support\RawJs;
 use App\Models\Fakprodi;
 use App\Models\Provinsi;
 use App\Models\Daerah;
@@ -124,7 +123,7 @@ class IdentitaForm
                                 '1' => 'Bekerja',
                                 '3' => 'Wirausaha',
                                 '4' => 'Melanjutkan Studi',
-                                '5' => 'Tidak Bekerja tetapi sedang mencari pekerjaan',
+                                '5' => 'Tidak Bekerja Tetapi Sedang Mencari Pekerjaan',
                                 '2' => 'Belum Memungkinkan Bekerja',
                             ])
                             ->columnSpanFull()
@@ -143,17 +142,22 @@ class IdentitaForm
                             ->requiredIf('f8', ['1', '3']),
                         TextInput::make('f502')
                             ->label('Jika ya, berapa bulan anda mendapatkan pekerjaan sebelum lulus?')
+                            ->maxValue(6)
+                            ->minValue(0)
                             ->visible(fn(callable $get) => $get('f504') == '1')
                             ->requiredIf('f504', '1')
                             ->numeric(),
                         TextInput::make('f506')
                             ->label('Jika tidak, berapa bulan anda mendapatkan pekerjaan setelah lulus?')
+                            ->minValue(0)
                             ->visible(fn(callable $get) => $get('f504') == '2')
                             ->requiredIf('f504', '2')
                             ->numeric(),
                         TextInput::make('f505')
                             ->label('Berapa rata-rata pendapatan anda per bulan?')
-                            ->placeholder('Tanpa Koma dan Titik')
+                            ->minValue(0)
+                            ->mask(RawJs::make('$money($input)'))
+                            ->stripCharacters(',')
                             ->numeric()
                             ->requiredIf('f8', ['1', '3']),
                     ])->visible(fn(callable $get) => in_array(($get('f8')), ['1', '3']))->columnSpanFull(),
@@ -189,7 +193,7 @@ class IdentitaForm
                             ->requiredIf('f8', ['1', '3']),
                     ])->visible(fn(callable $get) => in_array(($get('f8')), ['1', '3']))->columnSpanFull(),
 
-                    Step::make('Detail perusahaan')->schema([
+                    Step::make('Detail Pekerjaan')->schema([
                         Radio::make('f1101')
                             ->label('Apa jenis perusahaan / instansi / institusi tempat anda bekerja sekarang?')
                             ->options([
@@ -230,6 +234,25 @@ class IdentitaForm
                             ->columnSpanFull()
                             ->visible(fn(callable $get) => $get('f8') == '3')
                             ->requiredIf('f8', '3'),
+                        Radio::make('f14')
+                            ->label('Seberapa erat hubungan antara bidang studi dengan pekerjaan anda?')
+                            ->options([
+                                '1' => 'Sangat Erat',
+                                '2' => 'Erat',
+                                '3' => 'Cukup Erat',
+                                '4' => 'Kurang Erat',
+                                '5' => 'Tidak Sama Sekali',
+                            ])
+                            ->requiredIf('f8', ['1', '3']),
+                        Radio::make('f15')
+                            ->label('Tingkat pendidikan apa yang paling tepat / sesuai untuk pekerjaan anda saat ini?')
+                            ->options([
+                                '1' => 'Setingkat Lebih Tinggi',
+                                '2' => 'Setingkat',
+                                '3' => 'Setingkat Lebih Rendah',
+                                '4' => 'Tidak Perlu Pendidikan Tinggi',
+                            ])
+                            ->requiredIf('f8', ['1', '3']),
                     ])->visible(fn(callable $get) => in_array(($get('f8')), ['1', '3']))->columnSpanFull(),
 
                     Step::make('Detail Studi Lanjut')->schema([
@@ -272,25 +295,6 @@ class IdentitaForm
                                 ->visible(fn(callable $get) => in_array($get('f1201'), ['7']))
                                 ->requiredIf('f1201', '7'),
                         ])->columnSpanFull()->columns(),
-                        Radio::make('f14')
-                            ->label('Seberapa erat hubungan antara bidang studi dengan pekerjaan anda?')
-                            ->options([
-                                '1' => 'Sangat Erat',
-                                '2' => 'Erat',
-                                '3' => 'Cukup Erat',
-                                '4' => 'Kurang Erat',
-                                '5' => 'Tidak Sama Sekali',
-                            ])
-                            ->requiredIf('f8', '4'),
-                        Radio::make('f15')
-                            ->label('Tingkat pendidikan apa yang paling tepat / sesuai untuk pekerjaan anda saat ini?')
-                            ->options([
-                                '1' => 'Setingkat Lebih Tinggi',
-                                '2' => 'Setingkat',
-                                '3' => 'Setingkat Lebih Rendah',
-                                '4' => 'Tidak Perlu Pendidikan Tinggi',
-                            ])
-                            ->requiredIf('f8', '4'),
                     ])->visible(fn(callable $get) => in_array(($get('f8')), ['4']))->columns(2),
 
                     Step::make('Penilaian Kompetensi')
@@ -472,7 +476,7 @@ class IdentitaForm
                                 ->label('Jika memilih lainnya sebutkan disini')
                         ])->visible(fn(callable $get) => $get('f8') == '5')->columnSpanFull()->columns(1),
 
-                        Fieldset::make('Bagaimana anda mencari pekerjaan tersebut? Jawaban bisa lebih dari satu')->schema([
+                        Fieldset::make('Jika menurut anda pekerjaan anda saat ini tidak sesuai dengan pendidikan anda, mengapa anda mengambilnya? Jawaban bisa lebih dari satu')->schema([
                             Checkbox::make('f1601')->label('Pertanyaan tidak sesuai; pekerjaan saya sekarang sudah sesuai dengan pendidikan saya'),
                             Checkbox::make('f1602')->label('Saya belum mendapatkan pekerjaan yang lebih sesuai'),
                             Checkbox::make('f1603')->label('Di pekerjaan ini saya memeroleh prospek karir yang baik'),

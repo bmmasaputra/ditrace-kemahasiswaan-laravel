@@ -111,6 +111,7 @@ class TracerStudy extends Model
 {
 	protected $table = 'tracer_study';
 	protected $primaryKey = 'nim';
+	protected $keyType = 'string';
 	public $incrementing = false;
 	public $timestamps = false;
 

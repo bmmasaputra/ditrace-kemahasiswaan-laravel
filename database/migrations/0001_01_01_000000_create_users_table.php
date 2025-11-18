@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('nama');
             $table->string('password');
+            $table->integer('thn_lulus');
             $table->string('level');
             $table->string('fakultas');
             $table->string('jurusan');

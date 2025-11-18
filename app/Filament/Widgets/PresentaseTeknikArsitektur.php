@@ -1,0 +1,92 @@
+<?php
+
+namespace App\Filament\Widgets;
+
+use Filament\Widgets\ChartWidget;
+use App\Models\User;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
+use App\Models\TracerStudy;
+use Illuminate\Support\Facades\Auth;
+
+class PresentaseTeknikArsitektur extends ChartWidget
+{
+    use InteractsWithPageFilters;
+
+    protected ?string $heading = 'Presentase Teknik Arsitektur';
+
+    protected static bool $isLazy = false;
+
+    protected function getData(): array
+    {
+        $tahunLulus = $this->pageFilters['Tahun'] ?? null;
+
+        $counttotalMahasiswa = User::where('jurusan', 'Arsitektur')
+            ->where('thn_lulus', $tahunLulus)
+            ->count() ?? 0;
+        $countTracerStudy = TracerStudy::where('prodi', 'Arsitektur')
+            ->where('thn_lulus', $tahunLulus)
+            ->where('f8', '!=', '')
+            ->count() ?? 0;
+
+        if (!$counttotalMahasiswa) {
+            $belumMengisi = $counttotalMahasiswa - $countTracerStudy;
+        }
+
+        $belumMengisi = 100;
+
+        return [
+            'datasets' => [
+                [
+                    'label' => 'Mahasiswa',
+                    'data' => [$belumMengisi, $countTracerStudy],
+                    'backgroundColor' => [
+                        '#2196F3', // warna untuk label pertama (Total Mahasiswa)
+                        '#4CAF50', // warna untuk label kedua (Sudah Mengisi)
+                    ],
+                    'hoverOffset' => 10,
+                ]
+            ],
+            'labels' => ['Belum Mengisi Tracer Study', 'Sudah Mengisi Tracer Study']
+        ];
+    }
+
+    // protected function getPageFilters(): array
+    // {
+    //     $tahunLulus = $this->pageFilters['Tahun'] ?? null;
+    //     dd($tahunLulus);
+    //     return $this->pageFilters ?? [];
+    // }
+
+    protected function getType(): string
+    {
+        return 'doughnut';
+    }
+
+    public static function canView(): bool
+    {
+        $user = Auth::user();
+
+        if ($user->level == 'fakultas') {
+            return true;
+        }
+
+        $filters = request()->query('filters', []);
+
+        $fakultas = $filters['Fakultas'] ?? null;
+
+        // Only show widget if Fakultas is "Teknik"
+        if ($fakultas !== 'Teknik') {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function getColumnSpan(): int|string|array
+    {
+        return [
+            'sm' => 'full', // full width on small
+            'lg' => 1,      // span 2 columns on large screens
+        ];
+    }
+}

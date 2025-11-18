@@ -11,11 +11,14 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
+use Filament\Actions\Action;
 use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Filament\Facades\Filament;
 use Illuminate\Routing\Middleware\SubstituteBindings;
+use App\Filament\Resources\ChangePasswords\ChangePasswordResource;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
@@ -31,6 +34,9 @@ class AlumniPanelProvider extends PanelProvider
             ])
             ->discoverResources(in: app_path('Filament/Alumni/Resources'), for: 'App\Filament\Alumni\Resources')
             ->discoverPages(in: app_path('Filament/Alumni/Pages'), for: 'App\Filament\Alumni\Pages')
+            ->resources([
+                ChangePasswordResource::class
+            ])
             ->pages([
                 Dashboard::class,
             ])
@@ -38,6 +44,12 @@ class AlumniPanelProvider extends PanelProvider
             ->widgets([
                 AccountWidget::class,
                 FilamentInfoWidget::class,
+            ])
+            ->userMenuItems([
+                Action::make('changePassword')
+                    ->label('Ubah Password')
+                    ->icon('heroicon-o-key')
+                    ->url(fn() => ChangePasswordResource::getUrl(panel: Filament::getCurrentPanel()->getId())),
             ])
             ->middleware([
                 EncryptCookies::class,

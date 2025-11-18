@@ -20,6 +20,10 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Http\Middleware\RedirectIfWrongPanel;
 use App\Filament\Pages\Login;
+use Filament\Actions\Action;
+use Filament\Facades\Filament;
+use App\Filament\Resources\ChangePasswords\ChangePasswordResource;
+use App\Filament\Resources\IKUS\IKUResource;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -31,13 +35,11 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login(Login::class)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Blue,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
-            ->pages([
-                Dashboard::class,
-            ])
+            ->pages([])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
                 AccountWidget::class,
@@ -54,6 +56,12 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+            ])
+            ->userMenuItems([
+                Action::make('changePassword')
+                    ->label('Ubah Password')
+                    ->icon('heroicon-o-key')
+                    ->url(fn() => ChangePasswordResource::getUrl(panel: Filament::getCurrentPanel()->getId())),
             ])
             ->authMiddleware([
                 Authenticate::class,
