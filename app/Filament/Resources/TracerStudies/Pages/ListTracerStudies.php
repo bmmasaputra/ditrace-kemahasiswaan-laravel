@@ -27,7 +27,7 @@ class ListTracerStudies extends ListRecords
     {
         $userLevel = Auth::user()->level;
 
-        if ($userLevel) {
+        if ($userLevel !== 'admin') {
             return [
                 ExportAction::make()
                     ->exports([
@@ -141,7 +141,7 @@ class ListTracerStudies extends ListRecords
                                 Column::make('f1614'),
                                 Column::make('timestamp'),
                             ])
-                            ->ignoreFormatting(['thn_lulus']),
+                            ->ignoreFormatting(['thn_lulus', 'npwp', 'nik', 'nim']),
                     ]),
             ];
         }
@@ -149,14 +149,15 @@ class ListTracerStudies extends ListRecords
         return [
             ImportAction::make('DataMahasiswaImport')
                 ->importer(IdentitasImporter::class)
-                ->label('Import Data Mahasiswa (CSV)')
-                ->color('primary'),
+                ->label('Import Data Alumni (CSV)')
+                ->color('warning'),
             ImportAction::make('TracerStudyImport')
                 ->importer(TracerStudyImporter::class)
-                ->label('Import Kuisioner (CSV)')
-                ->color('primary'),
+                ->label('Import Data Tracer Study (CSV)')
+                ->color('warning'),
             CreateAction::make(),
             ExportAction::make()
+                ->color('danger')
                 ->exports([
                     ExcelExport::make()
                         ->fromTable()
@@ -268,7 +269,7 @@ class ListTracerStudies extends ListRecords
                             Column::make('f1614'),
                             Column::make('timestamp'),
                         ])
-                        ->ignoreFormatting(['thn_lulus']),
+                        ->ignoreFormatting(['thn_lulus', 'npwp', 'nik', 'nim']),
                 ]),
         ];
     }

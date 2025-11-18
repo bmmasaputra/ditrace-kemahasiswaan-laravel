@@ -11,6 +11,7 @@ class CreateTracerStudy extends CreateRecord
 {
     protected static string $resource = TracerStudyResource::class;
 
+    protected static bool $canCreateAnother = false;
 
     protected function afterCreate(): void
     {
@@ -25,5 +26,10 @@ class CreateTracerStudy extends CreateRecord
             'fakultas'      => $this->record->fakultas,
             'jurusan'      => $this->record->prodi,
         ]);
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
     }
 }
