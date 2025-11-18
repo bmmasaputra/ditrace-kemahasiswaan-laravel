@@ -65,7 +65,7 @@ class EditChangePassword extends EditRecord
             ]);
         }
 
-        // Isi kolom 'password' dengan hash
+        // Hash password sebelum save
         $data['password'] = Hash::make($state['new_password']);
 
         // Bersihkan field non-DB dari payload

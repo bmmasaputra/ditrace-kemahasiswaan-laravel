@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Facades\Auth;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class TracerStudiesTable
@@ -41,7 +42,14 @@ class TracerStudiesTable
                     ->sortable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('thn_lulus')
+                    // ->multiple()
+                    ->options([
+                        array_combine(
+                            range(date('Y'), date('Y') - 7),
+                            range(date('Y'), date('Y') - 7)
+                        )
+                    ])
             ])
             ->recordActions([
                 ViewAction::make(),

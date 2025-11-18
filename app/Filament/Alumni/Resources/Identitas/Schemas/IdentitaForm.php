@@ -193,7 +193,7 @@ class IdentitaForm
                             ->requiredIf('f8', ['1', '3']),
                     ])->visible(fn(callable $get) => in_array(($get('f8')), ['1', '3']))->columnSpanFull(),
 
-                    Step::make('Detail perusahaan')->schema([
+                    Step::make('Detail Pekerjaan')->schema([
                         Radio::make('f1101')
                             ->label('Apa jenis perusahaan / instansi / institusi tempat anda bekerja sekarang?')
                             ->options([
@@ -234,6 +234,25 @@ class IdentitaForm
                             ->columnSpanFull()
                             ->visible(fn(callable $get) => $get('f8') == '3')
                             ->requiredIf('f8', '3'),
+                        Radio::make('f14')
+                            ->label('Seberapa erat hubungan antara bidang studi dengan pekerjaan anda?')
+                            ->options([
+                                '1' => 'Sangat Erat',
+                                '2' => 'Erat',
+                                '3' => 'Cukup Erat',
+                                '4' => 'Kurang Erat',
+                                '5' => 'Tidak Sama Sekali',
+                            ])
+                            ->requiredIf('f8', ['1', '3']),
+                        Radio::make('f15')
+                            ->label('Tingkat pendidikan apa yang paling tepat / sesuai untuk pekerjaan anda saat ini?')
+                            ->options([
+                                '1' => 'Setingkat Lebih Tinggi',
+                                '2' => 'Setingkat',
+                                '3' => 'Setingkat Lebih Rendah',
+                                '4' => 'Tidak Perlu Pendidikan Tinggi',
+                            ])
+                            ->requiredIf('f8', ['1', '3']),
                     ])->visible(fn(callable $get) => in_array(($get('f8')), ['1', '3']))->columnSpanFull(),
 
                     Step::make('Detail Studi Lanjut')->schema([
@@ -276,25 +295,6 @@ class IdentitaForm
                                 ->visible(fn(callable $get) => in_array($get('f1201'), ['7']))
                                 ->requiredIf('f1201', '7'),
                         ])->columnSpanFull()->columns(),
-                        Radio::make('f14')
-                            ->label('Seberapa erat hubungan antara bidang studi dengan pekerjaan anda?')
-                            ->options([
-                                '1' => 'Sangat Erat',
-                                '2' => 'Erat',
-                                '3' => 'Cukup Erat',
-                                '4' => 'Kurang Erat',
-                                '5' => 'Tidak Sama Sekali',
-                            ])
-                            ->requiredIf('f8', '4'),
-                        Radio::make('f15')
-                            ->label('Tingkat pendidikan apa yang paling tepat / sesuai untuk pekerjaan anda saat ini?')
-                            ->options([
-                                '1' => 'Setingkat Lebih Tinggi',
-                                '2' => 'Setingkat',
-                                '3' => 'Setingkat Lebih Rendah',
-                                '4' => 'Tidak Perlu Pendidikan Tinggi',
-                            ])
-                            ->requiredIf('f8', '4'),
                     ])->visible(fn(callable $get) => in_array(($get('f8')), ['4']))->columns(2),
 
                     Step::make('Penilaian Kompetensi')

@@ -4,6 +4,7 @@ namespace App\Filament\Resources\TracerStudies\Pages;
 
 use App\Filament\Resources\TracerStudies\TracerStudyResource;
 use Filament\Actions\EditAction;
+use Illuminate\Support\Facades\Auth;
 use Filament\Resources\Pages\ViewRecord;
 use App\Models\TracerStudy;
 
@@ -13,9 +14,14 @@ class ViewTracerStudy extends ViewRecord
 
     protected function getHeaderActions(): array
     {
-        return [
-            EditAction::make(),
-        ];
+        $user = Auth::user();
+        if ($user->level == 'admin') {
+            return [
+                EditAction::make(),
+            ];
+        }
+
+        return [];
     }
 
     protected function afterMount(): void
